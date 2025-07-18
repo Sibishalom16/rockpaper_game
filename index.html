@@ -1,0 +1,56 @@
+<!-- Prompt: Create full game layout with heading, buttons, scoreboard, and status -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock Paper Scissors</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Rock Paper Scissors</h1>
+
+    <div class="scoreboard">
+      <div>
+        <h2>You</h2>
+        <p id="playerScore">0</p>
+      </div>
+      <div class="vs">VS</div>
+      <div>
+        <h2>Computer</h2>
+        <p id="computerScore">0</p>
+      </div>
+    </div>
+
+    <div class="round-info">
+      <p>Round <span id="round">1</span> / 5</p>
+    </div>
+
+    <div class="choices" id="choices">
+      <button id="rock">🪨<br />Rock</button>
+      <button id="paper">📄<br />Paper</button>
+      <button id="scissors">✂️<br />Scissors</button>
+    </div>
+
+    <div class="selections">
+      <div>
+        <p>Your Choice:</p>
+        <p id="playerChoice">?</p>
+      </div>
+      <div>
+        <p>Computer's Choice:</p>
+        <p id="computerChoice">?</p>
+      </div>
+    </div>
+
+    <div class="status">
+      <p id="status">Make your choice!</p>
+    </div>
+
+    <button id="playAgain" class="reset-btn" style="display: none;">🔁 Reset Game</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

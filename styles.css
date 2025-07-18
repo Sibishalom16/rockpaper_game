@@ -1,0 +1,125 @@
+/* Prompt: Use a gradient background with 2 colors */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ffffff, #fd4e4e);
+  color: white;
+  text-align: center;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Prompt: Style the game container */
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  background: #d07665;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Prompt: Style the title */
+h1 {
+  color: #60a5fa;
+  margin-bottom: 20px;
+}
+
+/* Prompt: Style the scoreboard layout */
+.scoreboard {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.scoreboard h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #cbd5e1;
+}
+
+.scoreboard p {
+  font-size: 2.5rem;
+  margin: 5px 0 0;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Prompt: Style the VS circle */
+.vs {
+  background-color: #ef4444;
+  color: white;
+  border-radius: 50%;
+  padding: 10px 14px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Prompt: Round info box */
+.round-info {
+  margin-bottom: 20px;
+  background: #334155;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+/* Prompt: Rock, Paper, Scissors buttons */
+.choices button {
+  background-color: #3b82f6;
+  border: none;
+  margin: 8px;
+  padding: 15px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100px;
+}
+
+.choices button:hover {
+  background-color: #2563eb;
+}
+
+/* Prompt: Show player and computer's choices */
+.selections {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+.selections p {
+  background: #475569;
+  padding: 12px;
+  border-radius: 8px;
+  width: 120px;
+  margin: 5px auto;
+}
+
+/* Prompt: Style the status message box */
+.status {
+  background: #334155;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* Prompt: Style the reset game button */
+.reset-btn {
+  background-color: #f97316;
+  padding: 12px 24px;
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.reset-btn:hover {
+  background-color: #ea580c;
+}
