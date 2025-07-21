@@ -1,9 +1,9 @@
-// Prompt: Set initial variables and elements
 let playerScore = 0;
 let computerScore = 0;
 let round = 1;
 const maxRounds = 5;
 
+// DOM Elements
 const buttons = document.querySelectorAll("#choices button");
 const statusText = document.getElementById("status");
 const playerScoreText = document.getElementById("playerScore");
@@ -13,13 +13,33 @@ const playerChoiceText = document.getElementById("playerChoice");
 const computerChoiceText = document.getElementById("computerChoice");
 const playAgainButton = document.getElementById("playAgain");
 
-// Prompt: Generate random choice for computer
+// ✅ Sound Effects
+const clickSound = new Audio("assets/Sounds/click.mp3");
+const winSound = new Audio("assets/Sounds/win.mp3");
+const loseSound = new Audio("assets/Sounds/lose.mp3");
+const tieSound = new Audio("assets/Sounds/tie.mp3");
+
+// Preload and unmute
+[clickSound, winSound, loseSound, tieSound].forEach(sound => {
+  sound.load();
+  sound.volume = 1;
+  sound.muted = false;
+});
+
+// Get emoji+label
+function getChoiceEmoji(choice) {
+  if (choice === 'rock') return '🪨 rock';
+  if (choice === 'paper') return '📄 paper';
+  if (choice === 'scissors') return '✂️ scissors';
+}
+
+// Computer move
 function getComputerChoice() {
   const choices = ['rock', 'paper', 'scissors'];
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
-// Prompt: Compare player vs computer choice
+// Winner logic
 function getWinner(player, computer) {
   if (player === computer) return 'tie';
   if (
@@ -30,26 +50,29 @@ function getWinner(player, computer) {
   return 'computer';
 }
 
-// Prompt: Play one round
+// Round logic
 function playRound(playerChoice) {
   if (round > maxRounds) return;
 
   const computerChoice = getComputerChoice();
   const winner = getWinner(playerChoice, computerChoice);
 
-  playerChoiceText.textContent = playerChoice;
-  computerChoiceText.textContent = computerChoice;
+  playerChoiceText.textContent = getChoiceEmoji(playerChoice);
+  computerChoiceText.textContent = getChoiceEmoji(computerChoice);
 
   if (winner === 'player') {
     playerScore++;
-    statusText.textContent = `You Win! ${playerChoice} beats ${computerChoice}`;
+    winSound.play();
+    statusText.textContent = `You Win! ${getChoiceEmoji(playerChoice)} beats ${getChoiceEmoji(computerChoice)}.`;
     statusText.style.color = "lime";
   } else if (winner === 'computer') {
     computerScore++;
-    statusText.textContent = `You Lose! ${computerChoice} beats ${playerChoice}`;
+    loseSound.play();
+    statusText.textContent = `You Lose! ${getChoiceEmoji(computerChoice)} beats ${getChoiceEmoji(playerChoice)}.`;
     statusText.style.color = "tomato";
   } else {
-    statusText.textContent = `It's a Tie! You both chose ${playerChoice}`;
+    tieSound.play();
+    statusText.textContent = `It's a Tie! You both chose ${getChoiceEmoji(playerChoice)}.`;
     statusText.style.color = "gray";
   }
 
@@ -61,14 +84,15 @@ function playRound(playerChoice) {
   if (round > maxRounds) endGame();
 }
 
-// Prompt: Add event listeners to buttons
+// Button events
 buttons.forEach(button => {
   button.addEventListener("click", () => {
+    clickSound.play();
     playRound(button.id);
   });
 });
 
-// Prompt: Show final result and disable buttons
+// End Game
 function endGame() {
   buttons.forEach(btn => btn.disabled = true);
   playAgainButton.style.display = "inline-block";
@@ -76,13 +100,13 @@ function endGame() {
   if (playerScore > computerScore) {
     statusText.textContent = "🎉 Congratulations! You Won The Game!";
   } else if (computerScore > playerScore) {
-    statusText.textContent = "💻 Game Over! Computer Wins The Game!";
+    statusText.textContent = "💻 Game Over! Computer Wins!";
   } else {
-    statusText.textContent = "😐 It's a Tie Game! Try Again!";
+    statusText.textContent = "😐 It's a Tie Game!";
   }
 }
 
-// Prompt: Reset the game to start again
+// Reset
 playAgainButton.addEventListener("click", () => {
   playerScore = 0;
   computerScore = 0;
@@ -94,7 +118,7 @@ playAgainButton.addEventListener("click", () => {
   playerChoiceText.textContent = "?";
   computerChoiceText.textContent = "?";
   statusText.textContent = "Make your choice!";
-  statusText.style.color = "white";
+  statusText.style.color = "#38bdf8";
 
   buttons.forEach(btn => btn.disabled = false);
   playAgainButton.style.display = "none";

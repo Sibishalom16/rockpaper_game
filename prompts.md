@@ -35,3 +35,17 @@ styles.css Prompts
 // Prompt: End the game and show final result message
 // Prompt: Disable buttons after game ends
 // Prompt: Reset the game when Play Again button is clicked
+
+
+
+Adding Styles & Assets:
+
+script.js prompts
+// Prompt: Add sound for button clicks
+// Prompt: Show emoji next to choices
+// Prompt: Handle game reset on button click
+
+styles.css
+/* Prompt: Style buttons with glow on hover */
+/* Prompt: Add responsive design for mobile view */
+/* Prompt: Style result text with win/loss colors */
