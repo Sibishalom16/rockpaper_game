@@ -3,7 +3,27 @@ let computerScore = 0;
 let round = 1;
 const maxRounds = 5;
 
-// DOM Elements
+// ✅ Sound Effects
+const clickSound = new Audio("./assets/mouse-click-405462.mp3");
+const winSound   = new Audio("./assets/win-sound-effect-187097.mp3");
+const loseSound  = new Audio("./assets/game-over-417465.mp3");
+const tieSound   = new Audio("./assets/8-bit-video-game-fail-version-2-145478.mp3");
+
+// Preload sounds
+[clickSound, winSound, loseSound, tieSound].forEach(sound => {
+  sound.load();
+  sound.volume = 1;
+  sound.muted = false;
+});
+
+// helper to avoid overlap
+function playSound(sound) {
+  sound.pause();
+  sound.currentTime = 0;
+  sound.play().catch(() => {});
+}
+
+// DOM elements
 const buttons = document.querySelectorAll("#choices button");
 const statusText = document.getElementById("status");
 const playerScoreText = document.getElementById("playerScore");
@@ -13,46 +33,33 @@ const playerChoiceText = document.getElementById("playerChoice");
 const computerChoiceText = document.getElementById("computerChoice");
 const playAgainButton = document.getElementById("playAgain");
 
-// ✅ Sound Effects
-const clickSound = new Audio("assets/Sounds/click.mp3");
-const winSound = new Audio("assets/Sounds/win.mp3");
-const loseSound = new Audio("assets/Sounds/lose.mp3");
-const tieSound = new Audio("assets/Sounds/tie.mp3");
-
-// Preload and unmute
-[clickSound, winSound, loseSound, tieSound].forEach(sound => {
-  sound.load();
-  sound.volume = 1;
-  sound.muted = false;
-});
-
-// Get emoji+label
 function getChoiceEmoji(choice) {
-  if (choice === 'rock') return '🪨 rock';
-  if (choice === 'paper') return '📄 paper';
-  if (choice === 'scissors') return '✂️ scissors';
+  if (choice === "rock") return "🪨 rock";
+  if (choice === "paper") return "📄 paper";
+  if (choice === "scissors") return "✂️ scissors";
 }
 
-// Computer move
 function getComputerChoice() {
-  const choices = ['rock', 'paper', 'scissors'];
+  const choices = ["rock", "paper", "scissors"];
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
-// Winner logic
 function getWinner(player, computer) {
-  if (player === computer) return 'tie';
+  if (player === computer) return "tie";
   if (
-    (player === 'rock' && computer === 'scissors') ||
-    (player === 'paper' && computer === 'rock') ||
-    (player === 'scissors' && computer === 'paper')
-  ) return 'player';
-  return 'computer';
+    (player === "rock" && computer === "scissors") ||
+    (player === "paper" && computer === "rock") ||
+    (player === "scissors" && computer === "paper")
+  )
+    return "player";
+  return "computer";
 }
 
-// Round logic
+// 🎮 Play Round
 function playRound(playerChoice) {
   if (round > maxRounds) return;
+
+  playSound(clickSound); // click sound first
 
   const computerChoice = getComputerChoice();
   const winner = getWinner(playerChoice, computerChoice);
@@ -60,19 +67,16 @@ function playRound(playerChoice) {
   playerChoiceText.textContent = getChoiceEmoji(playerChoice);
   computerChoiceText.textContent = getChoiceEmoji(computerChoice);
 
-  if (winner === 'player') {
+  if (winner === "player") {
     playerScore++;
-    winSound.play();
-    statusText.textContent = `You Win! ${getChoiceEmoji(playerChoice)} beats ${getChoiceEmoji(computerChoice)}.`;
+    statusText.textContent = `Round ${round}: You Win this round! ${getChoiceEmoji(playerChoice)} beats ${getChoiceEmoji(computerChoice)}.`;
     statusText.style.color = "lime";
-  } else if (winner === 'computer') {
+  } else if (winner === "computer") {
     computerScore++;
-    loseSound.play();
-    statusText.textContent = `You Lose! ${getChoiceEmoji(computerChoice)} beats ${getChoiceEmoji(playerChoice)}.`;
+    statusText.textContent = `Round ${round}: You Lose this round! ${getChoiceEmoji(computerChoice)} beats ${getChoiceEmoji(playerChoice)}.`;
     statusText.style.color = "tomato";
   } else {
-    tieSound.play();
-    statusText.textContent = `It's a Tie! You both chose ${getChoiceEmoji(playerChoice)}.`;
+    statusText.textContent = `Round ${round}: It's a Tie! You both chose ${getChoiceEmoji(playerChoice)}.`;
     statusText.style.color = "gray";
   }
 
@@ -84,29 +88,26 @@ function playRound(playerChoice) {
   if (round > maxRounds) endGame();
 }
 
-// Button events
-buttons.forEach(button => {
-  button.addEventListener("click", () => {
-    clickSound.play();
-    playRound(button.id);
-  });
-});
-
-// End Game
+// 🏁 End Game (plays final result sound only once)
 function endGame() {
   buttons.forEach(btn => btn.disabled = true);
   playAgainButton.style.display = "inline-block";
 
-  if (playerScore > computerScore) {
-    statusText.textContent = "🎉 Congratulations! You Won The Game!";
-  } else if (computerScore > playerScore) {
-    statusText.textContent = "💻 Game Over! Computer Wins!";
-  } else {
-    statusText.textContent = "😐 It's a Tie Game!";
-  }
+  setTimeout(() => {
+    if (playerScore > computerScore) {
+      statusText.textContent = "🎉 Congratulations! You Won The Game!";
+      playSound(winSound);
+    } else if (computerScore > playerScore) {
+      statusText.textContent = "💻 Game Over! Computer Wins!";
+      playSound(loseSound);
+    } else {
+      statusText.textContent = "😐 It's a Tie Game!";
+      playSound(tieSound);
+    }
+  }, 500);
 }
 
-// Reset
+// 🔁 Reset Game
 playAgainButton.addEventListener("click", () => {
   playerScore = 0;
   computerScore = 0;
@@ -122,4 +123,13 @@ playAgainButton.addEventListener("click", () => {
 
   buttons.forEach(btn => btn.disabled = false);
   playAgainButton.style.display = "none";
+
+  playSound(clickSound);
+});
+
+// Buttons
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    playRound(button.id);
+  });
 });
